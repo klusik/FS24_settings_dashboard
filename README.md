@@ -91,6 +91,7 @@ The batch file is the universal launcher:
 - If a suitable Python is found, it starts `MS_Setup.pyw`.
 - If Python is missing or too old, it installs Python 3.12 for the current Windows user.
 - After installing Python, it starts the dashboard with that Python.
+- After the dashboard starts, the batch window closes so only the app remains visible.
 
 The installer does not require administrator rights by default because it installs Python only for the current Windows user.
 

@@ -45,11 +45,19 @@ if not "%PYTHON_OK%"=="1" (
 :run_app
 echo Starting Microsoft Flight Simulator 2024 Settings Dashboard...
 set "RUN_EXE=%PYTHON_EXE%"
-if /I "%PYTHON_EXE:~-10%"=="python.exe" (
-    set "PYTHONW_EXE=%PYTHON_EXE:~0,-10%pythonw.exe"
-    if exist "%PYTHONW_EXE%" set "RUN_EXE=%PYTHONW_EXE%"
+set "RUN_HIDDEN=1"
+for %%P in ("%PYTHON_EXE%") do (
+    if exist "%%~dpPpythonw.exe" (
+        set "RUN_EXE=%%~dpPpythonw.exe"
+        set "RUN_HIDDEN=0"
+    )
 )
-start "" "%RUN_EXE%" "%SCRIPT_PATH%"
+
+if "%RUN_HIDDEN%"=="0" (
+    start "" "%RUN_EXE%" "%SCRIPT_PATH%"
+) else (
+    powershell -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command "Start-Process -FilePath $env:RUN_EXE -ArgumentList @($env:SCRIPT_PATH) -WindowStyle Hidden"
+)
 exit /b 0
 
 :find_python
